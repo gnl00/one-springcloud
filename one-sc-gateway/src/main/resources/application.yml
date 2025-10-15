@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: user-service
+              uri: http://localhost:8100
+              predicates:
+                - Path=/api/user/**
+            - id: order-service
+              uri: http://localhost:8200
+              predicates:
+                - Path=/api/order/**
+              filters:
+                - StripPrefix=1 #此filter作用是：去掉路径中最前面的 1 个路径段 /api/order/** ==> /order/**
+          form-filter:
+            enabled: true
